@@ -17,7 +17,6 @@ struct field
   vector<double> _y;
   vector<double> _z;
 
-  field ();
   int32_t read (const char* filename);
   double tmin ();
   double tmax ();
@@ -50,7 +49,7 @@ int32_t field::read (const char* filename)
     }
 
   for (int i = 1; i < _t.size(); ++i)
-    if (_t[i-1] >= _t[i-1])
+    if (_t[i-1] >= _t[i])
       return 2;
 
   return 0;
@@ -70,24 +69,24 @@ double lininter (double t, vector<double>& _t, vector<double>& _x)
 {
   uint32_t i;
   for (i = 0; i < _t.size()-1; ++i)
-    if (t >= _t[i]) break;
+    if (_t[i] <= t and t <= _t[i+1]) break;
 
-  return (t-_t[i])/(_t[i+1]-t[i])*(_x[i+1]-_x[i])+_x[i];
+  return (t-_t[i])/(_t[i+1]-_t[i])*(_x[i+1]-_x[i])+_x[i];
 }
 
 double field::x (double t)
 {
-  lininter (t, _t, _x);
+  return lininter (t, _t, _x);
 }
 
 double field::y (double t)
 {
-  lininter (t, _t, _y);
+  return lininter (t, _t, _y);
 }
 
 double field::z (double t)
 {
-  lininter (t, _t, _z);
+  return lininter (t, _t, _z);
 }
 
 double field::abs (double t)
