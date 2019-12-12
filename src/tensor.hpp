@@ -21,8 +21,8 @@ struct tensor
   complex<double>& operator[] (uint32_t n);
   complex<double>& operator[] (bits& b);
   Matrix2cd reduce ();
-  void write (const char* filename);
-  void read (const char* filename);
+  bool write (const char* filename);
+  int32_t read (const char* filename);
 };
 
 tensor::tensor (uint32_t n)
@@ -88,7 +88,7 @@ void convolute (tensor& C, tensor& A, tensor& B)
       
 ostream& operator<< (ostream& out, tensor& A)
 {
-  out<<"length: "<<A.length()<<". size: "<<A.size()<<endl;
+  out<<"length: "<<A.length()<<". size: "<<A.size()<<"."<<endl;
   for (uint32_t i = 0; i < A.size(); ++i)
     {
       bits b (A.length(), i);
@@ -97,15 +97,38 @@ ostream& operator<< (ostream& out, tensor& A)
   return out;
 }
 
-void tensor::write (const char* filename)
+bool tensor::write (const char* filename)
 {
   ofstream fout (filename, ios::binary);
+  if (!fout.is_open())
+    return false;
+  
   uint32_t m = length();
   uint32_t n = size();
   fout.write ((char*)&m, sizeof(uint32_t));
   fout.write ((char*)&n, sizeof(uint32_t));
   fout.write ((char*)_elements.data(), n*sizeof(complex<double>));
   fout.close ();
+
+  return true;
 }
 
+int32_t tensor::read (const char* filename)
+{
+  ifstream fin (filename, ios::binary);
+  if (!fin.is_open())
+    return 1;
+  
+  uint32_t m, n;
+  fin.read ((char*)&m, sizeof(uint32_t));
+  fin.read ((char*)&n, sizeof(uint32_t));
+  if (m != length() or n != size())
+    return 2;
+
+  fin.read ((char*)_elements.data(), n*sizeof(complex<double>));
+  fin.close();
+
+  return 0;
+}
+  
 #endif	// TENSOR_HPP
