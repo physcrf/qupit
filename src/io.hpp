@@ -16,4 +16,11 @@ void tee (FILE* fp, const char* format, ...)
   va_end (args);
 }
 
+// fill whitespaces
+void fill (FILE* fp, uint32_t n)
+{
+  for (uint32_t i = 0; i < n; ++i)
+    tee (fp, " ");
+}
+  
 #endif	// IO_HPP
