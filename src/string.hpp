@@ -9,6 +9,11 @@
 #include <stdint.h>
 using namespace std;
 
+bool integerp (string& s)
+{
+  return regex_match (s, regex("[-+]?([1-9]+[0-9]*|0)"));
+}
+
 bool numberp (string& s)
 {
   return regex_match (s, regex("[-+]?(0|[1-9][0-9]*)\\.([eEdD][-+]?(0|[1-9][0-9]*))?"))
@@ -16,11 +21,6 @@ bool numberp (string& s)
     or regex_match (s, regex("[-+]?(0|[1-9][0-9]*)\\.[0-9]+([eEdD][-+]?(0|[1-9][0-9]*))?"))
     or regex_match (s, regex("[-+]?([1-9]+[0-9]*|0)([eEdD][-+]?(0|[1-9][0-9]*))?"));
 }		    
-
-bool integerp (string& s)
-{
-  return regex_match (s, regex("[-+]?([1-9]+[0-9]*|0)"));
-}
 
 bool boolp (string& s)
 {

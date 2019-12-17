@@ -1,0 +1,12 @@
+RUNMD = DUH   # wrong
+RUNMD = Dyna # not right
+RUNMD = Dynamics # should be right
+SYSTM = ss
+SYSTM = SpinBoson
+RDFUN = true
+WRFUN = true
+TMITV = 0.4
+NSTEP = 8000
+TSTEP = 3
+INRHO = 1 1 2 3 4 5 6 a
+THETA = 1 
