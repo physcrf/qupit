@@ -1,7 +1,74 @@
 QUPIT alpha
 
-excuted at Tue Dec 17 17:46:02 2019
-running on total	2 threads
+excuted at Wed Dec 18 18:09:49 2019
+running on total 4 threads
 
 reading INPUT:
-    cannot open INPUT file, use default values
+    found SYSTM = SpinFermion
+    found RUNMD = Dynamics
+    found RDFUN = false
+    found WRFUN = false
+    found TMITV = 0.4
+    found NSTEP = 20
+    found TSTEP = 3
+    found INRHO = 0.13 0 0 0 0 0 0.87 0
+    found THETA = 1
+    found LPOTE = -1
+
+checking parameters:
+    common parameters checked
+    parameters for spin-fermion model checked
+
+parameter list:
+    RUNMD = Dynamics,         run Dynamics mode
+    SYSTM = SpinFermion,      run SpinFermion system
+    RDFUN = false,            do not read functional influential from file
+    WRFUN = false,            do not write functional influential to file
+    EXTFL = /home/crf/Projects/qupit/src/EXT,
+                              file to store external field
+    SPNFL = /home/crf/Projects/qupit/src/SPIN,
+                              file to store spin dynamics
+    RDMFL = /home/crf/Projects/qupit/src/RDM,
+                              file to store system density matrix dynamics
+    TMITV = 0.4000,           Trotter-Suzuki time interval, \delta t
+    NSTEP = 20,               total run steps, N
+    TSTEP = 3,                truncated steps, N_s
+    INRHO = 0.1300 0.0000 0.0000 0.0000 0.0000 0.0000 0.8700 0.0000,
+                              initial system density matrix shall be set as
+                              [+0.1300+0.0000i, +0.0000+0.0000i]
+                              [+0.0000+0.0000i, +0.8700+0.0000i]
+    THETA = 1.0000,           coupling angle \theta
+    VRPHI = 0.0000,           coupling angle \phi
+    BDWID = 3.0000,           band width of lead
+    LVNUM = 40,               number of energy levels
+    LAMBD = 0.1000,           system-bath coupling strength, \lambda
+    LPOTE = -1.0000,          chemical potential of left lead
+    RPOTE = -0.5000,          chemical potential of right lead
+    LTEMP = 0.0000,           temperature of left lead
+    RTEMP = 0.0000,           temperature of right lead
+
+reading external field:
+    reading from /home/crf/Projects/qupit/src/EXT
+    external field read:
+    #       time           x              y              z
+          0.0000         1.0000         0.0000         0.0000
+          0.4000         1.0000         0.0000         0.0000
+          0.8000         1.0000         0.0000         0.0000
+          1.2000         1.0000         0.0000         0.0000
+          1.6000         1.0000         0.0000         0.0000
+          2.0000         1.0000         0.0000         0.0000
+          2.4000         1.0000         0.0000         0.0000
+          2.8000         1.0000         0.0000         0.0000
+          3.2000         1.0000         0.0000         0.0000
+          3.6000         1.0000         0.0000         0.0000
+          4.0000         1.0000         0.0000         0.0000
+          4.4000         1.0000         0.0000         0.0000
+          4.8000         1.0000         0.0000         0.0000
+          5.2000         1.0000         0.0000         0.0000
+          5.6000         1.0000         0.0000         0.0000
+          6.0000         1.0000         0.0000         0.0000
+          6.4000         1.0000         0.0000         0.0000
+          6.8000         1.0000         0.0000         0.0000
+          7.2000         1.0000         0.0000         0.0000
+          7.6000         1.0000         0.0000         0.0000
+          8.0000         1.0000         0.0000         0.0000

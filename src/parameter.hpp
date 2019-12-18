@@ -11,8 +11,8 @@ using namespace std;
 // control parameters
 string		RUNMD	= "Dynamics";		// DYNAMICS, running the full dynamics, or FUNCTIONAL, compute the influential functional
 string		SYSTM	= "SpinBoson";		// specify the system 
-bool	 	RDFUN	= 0;			// read functional from file
-bool		WRFUN	= 0;			// write functional to file
+bool	 	RDFUN	= false;		// read functional from file
+bool		WRFUN	= false;		// write functional to file
 string		FUNFL	= "FUNC";		// file to store functional
 string		EXTFL	= "EXT";		// file to store external field
 string		SPNFL	= "SPIN";		// file to store spin dynamics
@@ -28,14 +28,17 @@ double		VRPHI	= 0;			// coupling angle phi
 
 // spin-boson parameters
 double		CUTFQ	= 1;			// cutoff frequency
-double		ALPHA	= 1;			// system-bath coupling strength
-double		OHMIS	= 1;			// expotenial of ohmic form, s
+double		ALPHA	= 1;			// system-bath coupling strength, \alpha
+uint32_t	MDNUM	= 40;			// number of modes
+double		OHMIS	= 1;			// ohmic exponential, s
 double		BTEMP	= 1;			// temperature
 
 // spin-fermion parameters
 double		BDWID	= 3;			// band width
-double		LPOTE	= +0.5;			// chemical potential for left lead
-double		RPOTE	= -0.5;			// chemical potential for right lead
+uint32_t	LVNUM	= 40;			// number of levels 
+double		LAMBD	= 0.1;			// system-bath coupling, \lambda
+double		LPOTE	= +0.5;			// chemical potential of left lead
+double		RPOTE	= -0.5;			// chemical potential of right lead
 double		LTEMP	= 0;			// temperature for left lead
 double		RTEMP	= 0;			// temperature for right lead
 
@@ -63,11 +66,14 @@ bool keyp (string& s)
   // spin-boson parameters
   if (s == "CUTFQ") return true;
   if (s == "ALPHA") return true;
+  if (s == "MDNUM") return true;
   if (s == "OHMIS") return true;
   if (s == "BTEMP") return true;
 
   // spin-fermion parameters
   if (s == "BDWID") return true;
+  if (s == "LVNUM") return true;
+  if (s == "LAMBD") return true;
   if (s == "LPOTE") return true;
   if (s == "RPOTE") return true;
   if (s == "RPOTE") return true;
@@ -102,7 +108,7 @@ vector<pair<string, string>> read_parameter_file ()
 	  // control parameters
 	  if (kv[0] == "RUNMD")
 	    {
-	      if (kv[0] != "Dynamics" and kv[1] != "Functional")
+	      if (kv[1] != "Dynamics" and kv[1] != "Functional")
 		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
 	      else
 		vp.push_back(pair<string, string>(kv[0], kv[1]));
@@ -112,7 +118,7 @@ vector<pair<string, string>> read_parameter_file ()
 
 	  if (kv[0] == "SYSTM")
 	    {
-	      if (kv[0] != "SpinBoson" and kv[0] != "SpinFermion")
+	      if (kv[1] != "SpinBoson" and kv[1] != "SpinFermion")
 		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
 	      else
 		vp.push_back(pair<string, string>(kv[0], kv[1]));
@@ -181,7 +187,7 @@ vector<pair<string, string>> read_parameter_file ()
 	  
 	  if (kv[0] == "NSTEP")
 	    {
-	      if (not integerp(kv[1]))
+	      if (not integerp(kv[1]) or stoi(kv[1]) <= 0)
 		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
 	      else
 		vp.push_back(pair<string, string>(kv[0], kv[1]));
@@ -191,7 +197,7 @@ vector<pair<string, string>> read_parameter_file ()
 	  
 	  if (kv[0] == "TSTEP")
 	    {
-	      if (not integerp(kv[1]))
+	      if (not integerp(kv[1]) or stoi(kv[1]) <= 0)
 		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
 	      else
 		vp.push_back(pair<string, string>(kv[0], kv[1]));
@@ -248,7 +254,7 @@ vector<pair<string, string>> read_parameter_file ()
 
 	  if (kv[0] == "ALPHA")
 	    {
-	       if (not numberp(kv[1]))
+	      if (not numberp(kv[1]))
 		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
 	      else
 		vp.push_back(pair<string, string>(kv[0], kv[1]));
@@ -256,6 +262,16 @@ vector<pair<string, string>> read_parameter_file ()
 	       ALPHA = stof(kv[1]);
 	    }
 
+	  if (kv[0] == "MDNUM")
+	    {
+	      if (not integerp(kv[1]) or stoi(kv[1]) <= 0)
+		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
+	      else
+		vp.push_back(pair<string, string>(kv[0], kv[1]));
+
+	       MDNUM = stoi(kv[1]);
+	    }
+	  
 	  if (kv[0] == "OHMIS")
 	    {
 	      if (not numberp(kv[1]))
@@ -287,6 +303,26 @@ vector<pair<string, string>> read_parameter_file ()
 	      BDWID = stof(kv[1]);
 	    }
 
+	  if (kv[0] == "LVNUM")
+	    {
+	      if (not integerp(kv[1]) or stoi(kv[1]) <= 0)
+		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
+	      else
+		vp.push_back(pair<string, string>(kv[0], kv[1]));
+
+	      LVNUM = stoi(kv[1]);
+	    }
+	  
+	  if (kv[0] == "LAMBD")
+	    {
+	      if (not numberp(kv[1]))
+		vp.push_back(pair<string, string>("UNREGVALUE", kv[0]));
+	      else
+		vp.push_back(pair<string, string>(kv[0], kv[1]));
+
+	      LAMBD = stof(kv[1]);
+	    }
+	      
 	  if (kv[0] == "LPOTE")
 	    {
 	      if (not numberp(kv[1]))

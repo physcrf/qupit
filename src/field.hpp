@@ -48,9 +48,12 @@ int32_t field::read (const char* filename)
       _z.push_back(z);
     }
 
+  if (_t.empty())
+    return 2;
+  
   for (int i = 1; i < _t.size(); ++i)
     if (_t[i-1] >= _t[i])
-      return 2;
+      return 3;
 
   return 0;
 }
