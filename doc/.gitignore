@@ -1,7 +1,7 @@
-clsl.aux
-clsl.log
-clsl.out
-clsl.tex
-clsl.toc
+qupit.aux
+qupit.log
+qupit.out
+qupit.tex
+qupit.toc
 Makefile
-_minted-clsl
+_minted-qupit
