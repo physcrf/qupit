@@ -406,11 +406,5 @@ void read_extfl (field& ext)
     }
 }
 
-void init_boson_bath ()
-{
-  tee ("\ninitializing phonon bath:\n");
-  fill(indent);
-}
-
 
 #endif	// IO_HPP

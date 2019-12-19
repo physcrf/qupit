@@ -1,0 +1,94 @@
+% Created 2019-12-19 四 17:43
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{book}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{times}
+\usepackage{physics}
+\usepackage{subfigure}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{minted}
+\setminted{linenos}
+\date{}
+\title{}
+\hypersetup{
+ pdfauthor={crf},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\title{QUPIT: QUasiadiabatic propagator Path Integral Toolkit}
+\author{Ruofan Chen}
+\maketitle
+\tableofcontents
+
+\chapter{General Formulation of QUAPI}
+\label{sec:org611f55b}
+In this chapter we give a review of the general formalism of the QUAPI
+\cite{makarov1994-path,makri1995-numerical,segal2010-numerically}.  Let
+us consider a generic many-body system which can be modeled by a
+finite system of interest coupled to a bath. Let \(H(t)\) denote the
+total Hamiltonian which can split into three parts:
+\begin{equation}
+H(t)=H_S(t)+H_B+H_{SB},
+\end{equation}
+where \(H_S(t)\) is the Hamiltonian of the system of interest, \(H_B\) is
+the Hamiltonian of the bath and \(H_{SB}\) represents the coupling
+between the system and the bath. Here we consider the case where only
+the system Hamiltonian \(H_S(t)\) is time-dependent. Let \(\rho(t)\) be
+the total density matrix, then the time evolution of \(\rho(t)\) is
+given by
+\begin{equation}
+\rho(t)=U(t)\rho(0)U^{\dag}(t),
+\end{equation}
+where
+\begin{equation}
+U(t)=\mathrm{T}\exp[-i\int_0^t H(\tau)\dd{\tau}]
+=\lim_{\delta t\to0}\prod_{t_i=0}^t e^{-iH(t_i)\delta_t}.
+\end{equation}
+Here \(\mathrm{T}\) is the chronological ordering symbol, and the
+product is understood in that we take the limit over all the
+infinitesimal intervals \(\delta t\). Therefore we can write the density
+matrix \(\rho(t)\) as
+\begin{equation}
+\rho(t)=\lim_{N\to\infty}e^{-iH(t_N)\delta t}\cdots e^{-iH(t_0)\delta t}
+\rho(0)e^{iH(t_0)\delta t}\cdots e^{iH(t_N)\delta t}
+\end{equation}
+for \(t_0=0\) and \(\delta t=t/N\).
+
+Now we introduce the reduced density matrix of the system
+\(\rho_B(t)=\Tr_B[\rho(t)]\), which is obtained by tracing the total
+density matrix over the bath degrees of freedom, then the time
+evolution of \(\rho_B(t)\) is given by 
+\begin{equation}
+\rho_S(s'',s';t)=\Tr_B\bra{s''}
+\lim_{N\to\infty}e^{-iH(t_N)\delta t}\cdots e^{-iH(t_1)\delta t}
+\rho(0)e^{iH(t_1)\delta t}\cdots e^{iH(t_N)\delta t}\ket{s'}.
+\end{equation}
+For numerical evaluation we can employ finite \(\delta t\) in the above
+expression which approximates the evolution operator \(U(t)\) into a
+product of finite \(N\) exponentials. Inserting the identity operator
+\(\int\ket{s}\bra{s}\dd{s}\) between every two exponentials and
+relabeling \(s'',s'\) as \(s_N^+,s_N^-\) gives
+\begin{equation}
+\begin{split}
+\rho(s_N^+,s_N^-;t)=&\int\dd{s}_0^+\cdots\dd{s_{N-1}^+}\int\dd{s_0^-}\cdots\dd{s_{N-1}^-}\\
+&\quad\Tr_B[\mel{s_N^+}{e^{-iH(t_N)\delta t}}{s_{N-1}^+}\cdots
+\mel{s_1^+}{e^{-iH(t_1)\delta t}}{s_0^+}\\
+&\qquad\qquad\times\mel{s_0^+}{\rho(0)}{s_0^-}
+\mel{s_0^-}{e^{iH(t_1)}\delta t}{s_1^-}\cdots
+\mel{s_{N-1}^-}{e^{iH(t_N)\delta t}}{s_N^-}]
+\end{split}
+\end{equation}
+
+\chapter{Reference}
+\label{sec:org93c72ee}
+\bibliographystyle{plainurl}
+\bibliography{/home/crf/Nutstore/Literature/papers}
+\end{document}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{(}\PYG{n+nb}{defparameter} \PYG{n+nv}{A} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{p}{(}\PYG{n+nv}{scalf} \PYG{n+nv}{A}\PYG{p}{)} \PYG{c+c1}{;; =\PYGZgt{} 2}
+\PYG{n+nv}{A} \PYG{c+c1}{;; =\PYGZgt{} 2}
+\PYG{p}{(}\PYG{n+nv}{scalf} \PYG{n+nv}{A} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{c+c1}{;; =\PYGZgt{} 6}
+\PYG{n+nv}{A} \PYG{c+c1}{;; =\PYGZgt{} 6}
+\end{Verbatim}
