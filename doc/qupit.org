@@ -172,7 +172,7 @@ This unit vector $\bm{n}$ describes the system-bath coupling angle
 $\theta,\phi$. The bath can be characterized by the spectral density
 \begin{equation}
 J(\omega)=\sum_kV_k^2\delta(\omega-\omega_k)=
-\alpha\omega^s\Theta(\omega-\omega_c),
+2\alpha\omega^s\Theta(\omega-\omega_c),
 \end{equation}
 where $\alpha$ is the control parameter, $\Theta$ is the heavy step
 function and $\omega_c$ is the cutoff frequency of the phonon modes.
